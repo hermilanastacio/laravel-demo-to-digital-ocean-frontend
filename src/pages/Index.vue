@@ -5,6 +5,7 @@
       style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
       v-for="post in posts" :key="post.id"
     >
+      <q-btn round color="primary" icon="close" @click="handleDelete(post.id)" size="sm" class="float-right q-ma-sm" style="z-index:20"/>
       <q-card-section>
         <div class="text-h6">{{ post.title }}</div>
         <div class="text-subtitle2">by {{ post.author }} on {{ formatDate(post.created_at) }}</div>
@@ -41,6 +42,12 @@ export default defineComponent({
   methods: {
     formatDate(date) {
       return moment(date).format('ll')
+    },
+    handleDelete(id) {
+      axios.delete(`https://dev.hermilanastacio.info/api/post/${id}`)
+      .finally(() => {
+        location.reload();
+      })
     }
   }
 })

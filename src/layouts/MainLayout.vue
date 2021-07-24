@@ -25,7 +25,16 @@
       bordered
       class="bg-grey-1"
     >
-      <q-list>
+      <form class="q-py-xl q-px-md">
+        <h6 class="q-ma-none">CREATE POST</h6>
+        <q-input outlined dense v-model="title" label="Title" class="q-mb-md"/>
+        <q-input outlined dense v-model="content" label="Content" class="q-mb-md"/>
+        <q-input outlined dense v-model="author" label="Author" class="q-mb-md"/>
+        <q-input outlined dense v-model="slug" label="Slug" class="q-mb-md"/>
+
+        <q-btn type="submit" color="primary" @click="handlePost" class="float-right" label="POST" />
+      </form>
+      <!-- <q-list>
         <q-item-label
           header
           class="text-grey-8"
@@ -38,7 +47,7 @@
           :key="link.title"
           v-bind="link"
         />
-      </q-list>
+      </q-list> -->
     </q-drawer>
 
     <q-page-container>
@@ -48,6 +57,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
@@ -96,12 +106,21 @@ const linksList = [
 ]
 
 import { defineComponent, ref } from 'vue'
+import axios from 'axios'
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
     EssentialLink
+  },
+  data () {
+    return {
+      title: '',
+      content: '',
+      slug: '',
+      author: ''
+    }
   },
 
   setup () {
@@ -113,6 +132,27 @@ export default defineComponent({
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
+    }
+  },
+  methods: {
+    handlePost(e) {
+      e.preventDefault()
+
+      var formData = new FormData();
+      
+      formData.append('title', this.title),
+      formData.append('content', this.content),
+      formData.append('slug', this.slug),
+      formData.append('author', this.author),
+
+      axios.post('https://dev.hermilanastacio.info/api/post',
+      formData, { 
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+
+      location.reload();
     }
   }
 })
