@@ -5,6 +5,7 @@
       style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
       v-for="post in posts" :key="post.id"
     >
+      <img :src="post.image_url" style="height:50px;width:50px" alt="thumb">
       <q-btn round color="primary" icon="close" @click="handleDelete(post.id)" size="sm" class="float-right q-ma-sm" style="z-index:20"/>
       <q-card-section>
         <div class="text-h6">{{ post.title }}</div>

@@ -32,6 +32,12 @@
         <q-input outlined dense v-model="author" label="Author" class="q-mb-md"/>
         <q-input outlined dense v-model="slug" label="Slug" class="q-mb-md"/>
 
+        <q-file dense outlined label="Image" v-model="image" class="q-mb-md">
+          <template v-slot:prepend>
+            <q-icon name="attach_file" />
+          </template>
+        </q-file>
+
         <q-btn type="submit" color="primary" @click="handlePost" class="float-right" label="POST" />
       </form>
       <!-- <q-list>
@@ -119,7 +125,8 @@ export default defineComponent({
       title: '',
       content: '',
       slug: '',
-      author: ''
+      author: '',
+      image: null
     }
   },
 
@@ -144,6 +151,7 @@ export default defineComponent({
       formData.append('content', this.content),
       formData.append('slug', this.slug),
       formData.append('author', this.author),
+      formData.append('image', this.image),
 
       axios.post('https://dev.hermilanastacio.info/api/post',
       formData, { 
@@ -152,7 +160,7 @@ export default defineComponent({
         }
       })
 
-      location.reload();
+      // location.reload();
     }
   }
 })
